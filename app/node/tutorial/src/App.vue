@@ -19,16 +19,6 @@ const features = reactive<typeOfFeatures>({
   SibSp: '兄弟姉妹の同伴者数は？'
 })
 
-// const displayOutput = (): void => {
-//   alert(`
-//     性別: ${features.Sex}
-//     階級: ${features.Pclass} 
-//     年齢: ${features.Age} 
-//     親・子同伴者数: ${features.Parch} 
-//     兄弟姉妹同伴者数: ${features.SibSp}
-//   `)
-// }
-
 // 生存確率を格納するための箱を作る
 const survivalProbability = ref<number | undefined>()
 // バリデーションのための関数を定義。
