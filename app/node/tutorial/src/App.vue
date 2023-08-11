@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
-import axios from 'axios'
+import {ref, reactive} from "vue";
+// import FeaturesInput from './components/FeaturesInput.vue';
+import HelloWorld from './components/HelloWorld.vue';
+import ResultDisplay from './components/ResultDisplay.vue';
 
-// 型を定義する場合は冒頭に type を使う (interface を使った書き方もある。その場合は "=" を外す)
 type typeOfFeatures = {
   Sex: '男性' | '女性' | '性別は？'
   Pclass: string
@@ -18,10 +19,6 @@ const features = reactive<typeOfFeatures>({
   Parch: '親・子の同伴者数は？',
   SibSp: '兄弟姉妹の同伴者数は？'
 })
-
-// 生存確率を格納するための箱を作る
-const survivalProbability = ref<number | undefined>()
-// バリデーションのための関数を定義。
 const validateRequestValues = (): boolean => {
   if (features.Sex == '性別は？') {
     alert('性別を入力してください。')
@@ -47,7 +44,6 @@ const validateRequestValues = (): boolean => {
   return true
 
 }
-
 const displayOutput = (): void => {
   // エンドポイントを指定
   const endPoint: string = 'http://localhost:5000/api/titanic'
@@ -77,47 +73,43 @@ const displayOutput = (): void => {
 </script>
 
 <template>
-  <p class="bg-blue-200 text-2xl p-4">Hello World!</p>
+  <HelloWorld />
   <div class="container mx-auto mt-4">
-    <select class="select select-primary mb-4" v-model="features.Sex">
-      <option disabled selected>性別は？</option>
-      <option>男性</option>
-      <option>女性</option>
-    </select>
-    <br>
-    <select class="select select-primary mb-4" v-model="features.Pclass">
-      <option disabled selected>階級は？</option>
-      <option>上層クラス（お金持ち）</option>
-      <option>中級クラス（一般階級）</option>
-      <option>下層クラス（労働階級）</option>
-    </select>
-    <br>
-    <select class="select select-primary mb-4" v-model="features.Age">
-      <option disabled selected>年齢は？</option>
-      <option v-for="i in [...Array(121).keys()]">
-        {{ i }}
-      </option>
-    </select> 歳
-    <br>
-    <select class="select select-primary mb-4" v-model="features.Parch">
-      <option disabled selected>親・子の同伴者数は？</option>
-      <option v-for="i in [...Array(11).keys()]">
-        {{ i }}
-      </option>
-    </select> 人
-    <br>
-    <select class="select select-primary mb-4" v-model="features.SibSp">
-      <option disabled selected>兄弟姉妹の同伴者数は？</option>
-      <option v-for="i in [...Array(11).keys()]">
-        {{ i }}
-      </option>
-    </select> 人
-    <br>
-    <button class="btn btn-primary" v-on:click="displayOutput()">結果を出力</button>
-    <template v-if="survivalProbability !== undefined">
-      <div class="alert alert-error mt-4 ">
-        あなたの生存確率は {{ Math.round(survivalProbability) }} % です。
+          <select class="select select-primary mb-4" v-model="features.Sex">
+              <option disabled selected>性別は？</option>
+              <option>男性</option>
+              <option>女性</option>
+          </select>
+          <br>
+          <select class="select select-primary mb-4" v-model="features.Pclass">
+              <option disabled selected>階級は？</option>
+              <option>上層クラス（お金持ち）</option>
+              <option>中級クラス（一般階級）</option>
+              <option>下層クラス（労働階級）</option>
+          </select>
+          <br>
+          <select class="select select-primary mb-4" v-model="features.Age">
+              <option disabled selected>年齢は？</option>
+              <option v-for="i in [...Array(121).keys()]">
+              {{ i }}
+              </option>
+          </select> 歳
+          <br>
+          <select class="select select-primary mb-4" v-model="features.Parch">
+              <option disabled selected>親・子の同伴者数は？</option>
+              <option v-for="i in [...Array(11).keys()]">
+              {{ i }}
+              </option>
+          </select> 人
+          <br>
+          <select class="select select-primary mb-4" v-model="features.SibSp">
+              <option disabled selected>兄弟姉妹の同伴者数は？</option>
+              <option v-for="i in [...Array(11).keys()]">
+              {{ i }}
+              </option>
+          </select> 人
+      <br>
+
+      <ResultDisplay :features="features"/>
       </div>
-    </template>
-  </div>
 </template>
